@@ -8,7 +8,8 @@ describe("registro de usuario", () => {
     cy.url().should("include", "/addUser");
   });
 
-  it("usuario completa registro correctamente", () => {
+
+  it("usuario quiere loguearse",()=>{
     cy.visit("https://thinking-tester-contact-list.herokuapp.com/addUser");
     cy.get("#firstName").type("juan");
     cy.get("#lastName").type("perez");
@@ -16,6 +17,12 @@ describe("registro de usuario", () => {
     cy.get("#email").type(`juanperez${numAleatorio}@gmail.com`);
     cy.get("#password").type("contrasenia123");
     cy.get("#submit").click();
-    cy.url().should('include', "/contactList")
-  });
+    cy.visit("https://thinking-tester-contact-list.herokuapp.com");
+    cy.get("#email").type(`juanperez${numAleatorio}@gmail.com`);
+    cy.get("#password").type("contrasenia123");
+    cy.get("#submit").click();
+    cy.url().should('include', "/contactList");
+  })
+
+
 });
