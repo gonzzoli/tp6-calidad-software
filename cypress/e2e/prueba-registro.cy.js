@@ -28,4 +28,13 @@ describe("registro de usuario", () => {
       .contains("password")
       .contains("is shorter than the minimum allowed length (7)");
   });
+
+  it("usuario quiere loguearse",()=>{
+    cy.visit("https://thinking-tester-contact-list.herokuapp.com/addUser");
+    cy.visit("https://thinking-tester-contact-list.herokuapp.com");
+    cy.get("#email").type(`juanperez${numAleatorio}@gmail.com`);
+    cy.get("#password").type("contrasenia123");
+    cy.get("#submit").click();
+    cy.url().should('include', "/contactList");
+  })
 });
