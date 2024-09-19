@@ -37,4 +37,11 @@ describe("registro de usuario", () => {
     cy.get("#submit").click();
     cy.url().should('include', "/contactList");
   })
+
+  it("usuario quiere desloguearse",()=>{
+    cy.visit("https://thinking-tester-contact-list.herokuapp.com/contactList");
+    cy.get("#logout").click();
+    cy.url().should('include', "/logout")
+  })
+
 });
