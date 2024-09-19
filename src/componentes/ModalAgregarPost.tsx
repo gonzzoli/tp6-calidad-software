@@ -10,7 +10,7 @@ export default function ModalAgregarPost({
   const [contenido, setContenido] = useState("");
 
   return (
-    <div>
+    <div style={{background: "white"}}>
       <label htmlFor="titulo">Titulo</label>
       <input type="text" value={titulo} id="titulo" onChange={(e) => setTitulo(e.target.value)} />
       <label htmlFor="contenido">Contenido del post</label>

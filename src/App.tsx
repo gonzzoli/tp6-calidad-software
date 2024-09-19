@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Post } from "./componentes/Post";
-import { Modal } from "@mui/material";
+import { Button, Modal } from "@mui/material";
 import ModalAgregarPost from "./componentes/ModalAgregarPost";
 import toast from "react-hot-toast";
 import ModalLogin from "./componentes/ModalLogin";
@@ -20,7 +20,12 @@ export default function App() {
       toast.error("El titulo del post debe tener al menos 3 caracteres");
       return;
     }
-    setPosts;
+    if (!usuarioLogeado) {
+      toast.error("Primero debes iniciar sesion");
+      return;
+    }
+    setPosts([...posts, { ...post, usuario: usuarioLogeado }]);
+    setCreandoPost(false);
   };
 
   const login = (usuario: string) => {
@@ -29,6 +34,7 @@ export default function App() {
       return;
     }
     setUsuarioLogeado(usuario);
+    setIniciandoSesion(false);
   };
 
   return (
@@ -42,7 +48,8 @@ export default function App() {
       <h1>Migda, tu red social preferida</h1>
       {usuarioLogeado && <h5>Bienvenido {usuarioLogeado}</h5>}
       <div>
-        <button
+        <Button
+          variant="contained"
           onClick={() => {
             if (!usuarioLogeado) {
               toast.error("Primero debes iniciar sesion");
@@ -51,15 +58,15 @@ export default function App() {
             setCreandoPost(true);
           }}>
           Publicar algo
-        </button>
-        <button onClick={() => setIniciandoSesion(true)}>
+        </Button>
+        <Button variant="contained" color="secondary" onClick={() => setIniciandoSesion(true)}>
           Iniciar sesion {usuarioLogeado && " como otro usuario"}
-        </button>
+        </Button>
       </div>
       {posts.map((post) => (
         <div>
           <h4>{post.titulo}</h4>
-          <em>{post.usuario}</em>
+          <em>Usuario: {post.usuario}</em>
           <p>{post.contenido}</p>
         </div>
       ))}
