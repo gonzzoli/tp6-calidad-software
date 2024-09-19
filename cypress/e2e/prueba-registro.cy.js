@@ -38,6 +38,19 @@ describe("registro de usuario", () => {
     cy.url().should('include', "/contactList");
   })
 
+  it("validacion de campo: contraseña larga", () => {
+    cy.get("#firstName").type("juana");
+    cy.get("#lastName").type("pereyra");
+    const numAleatorio = Math.round(Math.random() * 100);
+    cy.get("#email").type(`juanperez${numAleatorio}@gmail.com`);
+    const contraseñaLarga= "3.141592653589793238462643383279502884197169399375105820974944eslacantidaddedigitosquemesedeelnumeropiqueesigualalcocienteentreelperimetroyeldiametro";
+    cy.get("#password").type(contraseñaLarga);
+    cy.get("#submit").click();
+    cy.get("#error")
+      .contains("password")
+      .contains("is longer than the maximum allowed length (100)");
+  });
+
   it("usuario quiere desloguearse",()=>{
     cy.visit("https://thinking-tester-contact-list.herokuapp.com/contactList");
     cy.get("#logout").click();
