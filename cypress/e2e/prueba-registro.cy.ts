@@ -32,6 +32,7 @@ describe("registro de usuario", () => {
   it("usuario quiere loguearse", () => {
     cy.visit("https://thinking-tester-contact-list.herokuapp.com/addUser");
     cy.visit("https://thinking-tester-contact-list.herokuapp.com");
+    const numAleatorio = Math.round(Math.random() * 100);
     cy.get("#email").type(`juanperez${numAleatorio}@gmail.com`);
     cy.get("#password").type("contrasenia123");
     cy.get("#submit").click();
