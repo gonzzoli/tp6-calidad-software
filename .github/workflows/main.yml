@@ -3,9 +3,8 @@ name: Tests y Build
 on: 
   pull_request:
     branches:
-      - 'produccion'
-      - 'pre-produccion'
       - 'testing'
+      - 'desarrollo'
 
 jobs:
   windows:
