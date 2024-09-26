@@ -1,0 +1,28 @@
+name: Tests y Build
+
+on: 
+  pull_request:
+    branches:
+      - 'produccion'
+      - 'pre-produccion'
+      - 'testing'
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Usar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - run: npm ci
+      - name: Realizar build
+        run: npm run build
+      - name: Ejecutar tests de Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run preview --port 8000
+          browser: chrome
+          wait-on: 'http://localhost:8000'
