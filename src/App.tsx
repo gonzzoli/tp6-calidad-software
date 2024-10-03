@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Post } from "./componentes/Post";
 import { Button, Modal } from "@mui/material";
 import ModalAgregarPost from "./componentes/ModalAgregarPost";
 import toast from "react-hot-toast";
 import ModalLogin from "./componentes/ModalLogin";
+import ComponentePost, { Post } from "./componentes/Post";
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -11,7 +11,7 @@ export default function App() {
   const [creandoPost, setCreandoPost] = useState(false);
   const [iniciandoSesion, setIniciandoSesion] = useState(false);
 
-  const publicarPost = (post: Omit<Post, "usuario">) => {
+  const publicarPost = (post: Omit<Post, "usuario" | "id">) => {
     if (post.contenido.length < 10) {
       toast.error("El contenido del post debe tener al menos 5 caracteres");
       return;
@@ -24,7 +24,7 @@ export default function App() {
       toast.error("Primero debes iniciar sesion");
       return;
     }
-    setPosts([...posts, { ...post, usuario: usuarioLogeado }]);
+    setPosts([...posts, { ...post, usuario: usuarioLogeado, id: posts.length + 1 }]);
     setCreandoPost(false);
   };
 
@@ -46,10 +46,11 @@ export default function App() {
         <ModalLogin login={login} />
       </Modal>
       <h1>Migda, tu red social preferida</h1>
-      {usuarioLogeado && <h5>Bienvenido {usuarioLogeado}</h5>}
+      {usuarioLogeado && <h5 id="nombre-usuario-logeado">Bienvenido {usuarioLogeado}</h5>}
       <div>
         <Button
           variant="contained"
+          id="boton-publicar"
           onClick={() => {
             if (!usuarioLogeado) {
               toast.error("Primero debes iniciar sesion");
@@ -59,16 +60,16 @@ export default function App() {
           }}>
           Publicar algo
         </Button>
-        <Button variant="contained" color="secondary" onClick={() => setIniciandoSesion(true)}>
+        <Button
+          id="boton-login"
+          variant="contained"
+          color="secondary"
+          onClick={() => setIniciandoSesion(true)}>
           Iniciar sesion {usuarioLogeado && " como otro usuario"}
         </Button>
       </div>
-      {posts.map((post) => (
-        <div>
-          <h4>{post.titulo}</h4>
-          <em>Usuario: {post.usuario}</em>
-          <p>{post.contenido}</p>
-        </div>
+      {posts.map((post, index) => (
+        <ComponentePost post={{ ...post, id: index }} />
       ))}
     </section>
   );

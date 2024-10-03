@@ -1,15 +1,16 @@
 export type Post = {
+  id: number;
   usuario: string;
   contenido: string;
   titulo: string;
 };
 
-export default function Post({ titulo, contenido, usuario }: Post) {
+export default function ComponentePost({ post }: { post: Post }) {
   return (
-    <div>
-      <h3>{titulo}</h3>
-      <p>{contenido}</p>
-      <em>Publicado por: {usuario}</em>
+    <div id={"post-" + post.id}>
+      <h3>{post.titulo}</h3>
+      <p>{post.contenido}</p>
+      <em>Publicado por: {post.usuario}</em>
     </div>
   );
 }
